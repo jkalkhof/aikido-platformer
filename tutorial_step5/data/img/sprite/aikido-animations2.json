@@ -1,0 +1,76 @@
+{"frames": [
+
+{
+	"filename": "shomen-displacement0000",
+	"frame": {"x":1,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0001",
+	"frame": {"x":103,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0002",
+	"frame": {"x":205,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0003",
+	"frame": {"x":307,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0004",
+	"frame": {"x":409,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0005",
+	"frame": {"x":511,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0006",
+	"frame": {"x":613,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+},
+{
+	"filename": "shomen-displacement0007",
+	"frame": {"x":715,"y":1,"w":100,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":50},
+	"sourceSize": {"w":100,"h":50}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "aikido-animations2.png",
+	"format": "RGBA8888",
+	"size": {"w":816,"h":52},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:fca2d2b08d1e89e93622c5a98448eec7:e08a3fdd81ad3211970d48c1cba90787:1f0438431ae895fc9d0773889ea29c03$"
+}
+}

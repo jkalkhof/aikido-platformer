@@ -1,0 +1,60 @@
+{"frames": [
+
+{
+	"filename": "shomen-displacement-ikkyo4",
+	"frame": {"x":0,"y":1300,"w":100,"h":700},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":700},
+	"sourceSize": {"w":100,"h":700}
+},
+{
+	"filename": "shomen-displacement7",
+	"frame": {"x":100,"y":850,"w":100,"h":450},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":450},
+	"sourceSize": {"w":100,"h":450}
+},
+{
+	"filename": "tsuki-displacement-kote-gaeshi5",
+	"frame": {"x":100,"y":1300,"w":100,"h":700},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":700},
+	"sourceSize": {"w":100,"h":700}
+},
+{
+	"filename": "tsuki-displacement4",
+	"frame": {"x":0,"y":850,"w":100,"h":450},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":450},
+	"sourceSize": {"w":100,"h":450}
+},
+{
+	"filename": "yokomen-displacement-shiho-nage4",
+	"frame": {"x":0,"y":0,"w":100,"h":850},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":850},
+	"sourceSize": {"w":100,"h":850}
+},
+{
+	"filename": "yokomen-displacement6",
+	"frame": {"x":100,"y":0,"w":100,"h":500},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":500},
+	"sourceSize": {"w":100,"h":500}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "aikido-animations1.png",
+	"format": "RGBA8888",
+	"size": {"w":200,"h":2000},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1121afeb8a4e75b0284b5d10f2ec6cb6:d1b55f91e5a5ee12293ec703b38a63d5:8153a13d32822a030625234b45957e57$"
+}
+}
