@@ -158,10 +158,6 @@ game.PlayerEntity = me.Entity.extend( {
                     if (!this.mergedAnimationMode && response.overlapV.x > 20) {
                       console.log("PlayerEntity: Collision: creating TempEntity");
 
-                      // turn off movement of EnemyEntity
-                      //response.b.alive = false;
-                      response.b.setAlive(false);
-
                       // spawn tempEntity here
                       var spawnPos = this.pos;
 
@@ -175,12 +171,20 @@ game.PlayerEntity = me.Entity.extend( {
 
                       this.mergedAnimationMode = true;
 
-                      tempChild.setPlayerEntity(response.a);
-                      tempChild.setEnemyEntity(response.b);
+                      // turn off movement of EnemyEntity
+                      if (response.b.name == "Enemy1") {
+                          response.b.setAlive(false);
+                          tempChild.setPlayerEntity(response.a);
+                          tempChild.setEnemyEntity(response.b);
+                      } else if (response.a.name == "Enemy1") {
+                          response.a.setAlive(false);
+                          tempChild.setPlayerEntity(response.b);
+                          tempChild.setEnemyEntity(response.a);
 
-                      // me.game.world.removeChild(response.a);
-                      // me.game.world.removeChild(response.b);
-                      // debugger;
+                          // collision from right atlasIndeces
+                          tempChild.flipX(true);
+                      }
+
                     }
                 }
                 return false;
