@@ -47,12 +47,14 @@ game.PlayerEntity = me.Entity.extend( {
         this.renderable.anchorPoint.set(0,0);
 
         this.mergedAnimationMode = false;
+        this.proximityRangeActive = false;
+        this.counterMode = false;
     },
 
     /**
      * update the entity
      */
-   update : function (dt) {
+    update : function (dt) {
 
         if (this.mergedAnimationMode) {
           return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
@@ -99,6 +101,12 @@ game.PlayerEntity = me.Entity.extend( {
          else
          {
              this.body.force.y = 0;
+         }
+
+         if (me.input.isKeyPressed("counter") && this.proximityRangeActive)
+         {
+           console.log("PlayerEntity: Update - counter pressed when proximityRangeActive!");
+           this.counterMode = true;
          }
 
         // apply physics to the body (this moves the entity)
@@ -148,8 +156,18 @@ game.PlayerEntity = me.Entity.extend( {
                     this.body.jumping = true;
                 }
                 else {
-                    // let's flicker in case we touched an enemy
-                    this.renderable.flicker(750);
+                    // turn on proximity alert where player can counter EnemyEntity
+                    // by pressing counter button (spacebar)
+                    if (!this.mergedAnimationMode) {
+                        this.proximityRangeActive = true;
+
+                        // let's flicker in case we touched an enemy
+                        this.renderable.flicker(750, (function () {
+                            console.log("PlayerEntity: disable flicker");
+                            // can only counter - counterMode when within proximity range
+                            this.proximityRangeActive = false;
+                        }).bind(this));
+                    }
 
                     // replace image of enemy and player sprites temporarily,
                     // and use tempEntity instead for merged animation
@@ -163,13 +181,38 @@ game.PlayerEntity = me.Entity.extend( {
 
                       // add student at spawn point
                       settings = {width: 100, height: 50};
+                      if (this.counterMode) {
+                          settings.currentAnimation = "shomen-ikkyo";
+                      } else {
+                          settings.currentAnimation = "shomen";
+                      }
+
+
                       var tempChild = me.game.world.addChild(me.pool.pull("TempEntity",
                         // offset TempEntity from player to align merged animation
                         spawnPos.x - 22,
                         spawnPos.y,
                         settings));
 
+                      // TODO: need callback to destroy enemy if countered
+                      if (this.counterMode) {
+                        tempChild.setCallback(function(playerEntity, enemyEntity) {
+                          console.log("PlayerEntity: got the bad guy!");
+                          me.game.world.removeChild(enemyEntity);
+
+                          // offset player to align with position at end of mergedAnimation
+                          playerEntity.pos.x += 40;
+                        });
+                      } else {
+                        tempChild.setCallback(function(playerEntity, enemyEntity) {
+                          console.log("PlayerEntity: ouch!");
+                        });
+                      }
+
+                      // reset variables for next encounter
                       this.mergedAnimationMode = true;
+                      this.proximityRangeActive = false; // we can no longer counter
+                      this.counterMode = false;
 
                       // turn off movement of EnemyEntity
                       if (response.b.name == "Enemy1") {
@@ -383,9 +426,14 @@ game.TempEntity = me.Sprite.extend(
 
         // https://melonjs.github.io/melonJS/docs/me.CanvasRenderer.Texture.html
         // create a texture atlas from a JSON Object
+        // var texture = new me.video.renderer.Texture(
+        //     me.loader.getJSON("aikido-animations2"),
+        //     me.loader.getImage("aikido-animations2")
+        // );
+
         var texture = new me.video.renderer.Texture(
-            me.loader.getJSON("aikido-animations2"),
-            me.loader.getImage("aikido-animations2")
+            me.loader.getJSON("aikido-animations3"),
+            me.loader.getImage("aikido-animations3")
         );
 
         // if we were using a sprite instead of an Entity object
@@ -409,6 +457,20 @@ game.TempEntity = me.Sprite.extend(
             "shomen-displacement0005",
             "shomen-displacement0006",
             "shomen-displacement0007",
+            "shomen-ikkyo0000",
+            "shomen-ikkyo0001",
+            "shomen-ikkyo0002",
+            "shomen-ikkyo0003",
+            "shomen-ikkyo0004",
+            "shomen-ikkyo0005",
+            "shomen-ikkyo0006",
+            "shomen-ikkyo0007",
+            "shomen-ikkyo0008",
+            "shomen-ikkyo0009",
+            "shomen-ikkyo0010",
+            "shomen-ikkyo0011",
+            "shomen-ikkyo0012",
+            "shomen-ikkyo0013",
         ]);
 
         // copy atlas and atlasIndeces into settings for our new sprite
@@ -436,6 +498,23 @@ game.TempEntity = me.Sprite.extend(
           "shomen-displacement0007",
         ]);
 
+        this.addAnimation ("shomen-ikkyo", [
+          "shomen-ikkyo0000",
+          "shomen-ikkyo0001",
+          "shomen-ikkyo0002",
+          "shomen-ikkyo0003",
+          "shomen-ikkyo0004",
+          "shomen-ikkyo0005",
+          "shomen-ikkyo0006",
+          "shomen-ikkyo0007",
+          "shomen-ikkyo0008",
+          "shomen-ikkyo0009",
+          "shomen-ikkyo0010",
+          "shomen-ikkyo0011",
+          "shomen-ikkyo0012",
+          "shomen-ikkyo0013",
+        ]);
+
         // for testing - continuous animation
         // this.setCurrentAnimation("shomen");
 
@@ -445,7 +524,12 @@ game.TempEntity = me.Sprite.extend(
         // only animate once
         // set animation, and remove the object when finished
         // restore playerEntity, enemyEntity when finished
-        this.setCurrentAnimation("shomen", (function () {
+
+        if (typeof settings.currentAnimation === "undefined") {
+          settings.currentAnimation = "shomen-ikkyo";
+        }
+
+        this.setCurrentAnimation(settings.currentAnimation, (function () {
            me.game.world.removeChild(this);
 
             console.log("TempEntity: animation ended");
@@ -461,6 +545,10 @@ game.TempEntity = me.Sprite.extend(
              this.enemyEntity.setAlive(true);
            } else {
              console.log("TempEntity: animation ended - enemyEntity missing!");
+           }
+
+           if (this.callback != null) {
+             this.callback(this.playerEntity, this.enemyEntity);
            }
 
            return false; // do not reset to first frame
@@ -496,6 +584,9 @@ game.TempEntity = me.Sprite.extend(
 
         // enable this, since the entity starts off the viewport
         this.alwaysUpdate = true;
+
+        // initially no callback
+        this.callback = null;
     },
 
     // for restoring playerEntity after animation
@@ -510,6 +601,16 @@ game.TempEntity = me.Sprite.extend(
     {
         console.log("TempEntity: setEnemyEntity: ",obj.name);
         this.enemyEntity = obj;
+    },
+
+    setCallback : function (fn) {
+        if (typeof(fn) !== "function") {
+            throw new me.ObservableVector2d.Error(
+                "invalid callback"
+            );
+        }
+        this.callback = fn;
+        return this;
     },
 
   });

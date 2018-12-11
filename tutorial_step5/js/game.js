@@ -39,10 +39,11 @@ var game = {
 		// enable the keyboard
 		me.input.bindKey(me.input.KEY.LEFT,		"left");
 		me.input.bindKey(me.input.KEY.RIGHT,	"right");
-		// map X, Up Arrow and Space for jump
+		// map X, Up Arrow for jump
 		me.input.bindKey(me.input.KEY.X,		"jump", true);
 		me.input.bindKey(me.input.KEY.UP,		"jump", true);
-		me.input.bindKey(me.input.KEY.SPACE,	"jump", true);
+		// space for counter move
+		me.input.bindKey(me.input.KEY.SPACE,	"counter", true);
 
         // Start the game.
         me.state.change(me.state.PLAY);
