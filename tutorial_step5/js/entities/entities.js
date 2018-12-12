@@ -52,6 +52,9 @@ game.PlayerEntity = me.Entity.extend( {
 
         this.AnimationEnum = Object.freeze({"shomen":1, "shomen_ikkyo":2, "tsuki":3, "tsuki_kote_gaeshi":4});
         this.currentAnimation = this.AnimationEnum.shomen;
+
+        this.AttackEnum = Object.freeze({"shomen":0, "tsuki":1, "yokomen":2 });
+        this.currentAttack = this.AttackEnum.shomen;
     },
 
     /**
@@ -183,22 +186,35 @@ game.PlayerEntity = me.Entity.extend( {
                       var spawnPos = this.pos;
                       var xOffset = 0;
 
+                      //var attackType = me.Math.random(0, 3);
+                      var attackType = me.Math.random(0, 2);
+                      if (attackType == 0) {
+                          this.currentAttack = this.AttackEnum.shomen;
+                      } else {
+                          this.currentAttack = this.AttackEnum.tsuki;
+                      }
+
                       // add student at spawn point
                       settings = {width: 100, height: 50};
                       if (this.counterMode) {
                           // defenses
-                          settings.currentAnimation = "shomen-ikkyo";
-                          this.currentAnimation = this.AnimationEnum.shomen_ikkyo;
+                          if (this.currentAttack == this.AttackEnum.shomen) {
+                            settings.currentAnimation = "shomen-ikkyo";
+                            this.currentAnimation = this.AnimationEnum.shomen_ikkyo;
+                          } else {
+                            settings.currentAnimation = "tsuki-kote-gaeshi";
+                            this.currentAnimation = this.AnimationEnum.tsuki_kote_gaeshi;
+                          }
 
-                          // settings.currentAnimation = "tsuki-kote-gaeshi";
-                          // this.currentAnimation = this.AnimationEnum.tsuki_kote_gaeshi;
                       } else {
                           // attacks
-                          settings.currentAnimation = "shomen";
-                          this.currentAnimation = this.AnimationEnum.shomen;
-
-                          // settings.currentAnimation = "tsuki";
-                          // this.currentAnimation = this.AnimationEnum.tsuki;
+                          if (this.currentAttack == this.AttackEnum.shomen) {
+                            settings.currentAnimation = "shomen";
+                            this.currentAnimation = this.AnimationEnum.shomen;
+                          } else {
+                            settings.currentAnimation = "tsuki";
+                            this.currentAnimation = this.AnimationEnum.tsuki;
+                          }
                       }
 
                       if (response.b.name == "Enemy1") {
