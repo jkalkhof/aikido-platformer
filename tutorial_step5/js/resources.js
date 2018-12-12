@@ -14,9 +14,11 @@ game.resources = [
 	// {name: "aikido-animations2",     type:"image",	src: "data/img/sprite/aikido-animations2.png"},
 	// {name : "aikido-animations2",		 type : "json",  src: "data/img/sprite/aikido-animations2.json"},
 
-	{name: "aikido-animations3",     type:"image",	src: "data/img/sprite/aikido-animations3.png"},
-	{name : "aikido-animations3",		 type : "json",  src: "data/img/sprite/aikido-animations3.json"},	
+	// {name: "aikido-animations3",     type:"image",	src: "data/img/sprite/aikido-animations3.png"},
+	// {name : "aikido-animations3",		 type : "json",  src: "data/img/sprite/aikido-animations3.json"},
 
+	{name: "aikido-animations4",     type:"image",	src: "data/img/sprite/aikido-animations4.png"},
+	{name : "aikido-animations4",		 type : "json",  src: "data/img/sprite/aikido-animations4.json"},	
 
 	// the parallax background
 	{name: "area01_bkg0",         type:"image",	src: "data/img/area01_bkg0.png"},

@@ -49,6 +49,9 @@ game.PlayerEntity = me.Entity.extend( {
         this.mergedAnimationMode = false;
         this.proximityRangeActive = false;
         this.counterMode = false;
+
+        this.AnimationEnum = Object.freeze({"shomen":1, "shomen_ikkyo":2, "tsuki":3, "tsuki_kote_gaeshi":4});
+        this.currentAnimation = this.AnimationEnum.shomen;
     },
 
     /**
@@ -178,39 +181,114 @@ game.PlayerEntity = me.Entity.extend( {
 
                       // spawn tempEntity here
                       var spawnPos = this.pos;
+                      var xOffset = 0;
 
                       // add student at spawn point
                       settings = {width: 100, height: 50};
                       if (this.counterMode) {
+                          // defenses
                           settings.currentAnimation = "shomen-ikkyo";
+                          this.currentAnimation = this.AnimationEnum.shomen_ikkyo;
+
+                          // settings.currentAnimation = "tsuki-kote-gaeshi";
+                          // this.currentAnimation = this.AnimationEnum.tsuki_kote_gaeshi;
                       } else {
+                          // attacks
                           settings.currentAnimation = "shomen";
+                          this.currentAnimation = this.AnimationEnum.shomen;
+
+                          // settings.currentAnimation = "tsuki";
+                          // this.currentAnimation = this.AnimationEnum.tsuki;
                       }
 
+                      if (response.b.name == "Enemy1") {
+                          // collision by walking right
+                          // adjust pre offset relative to PlayerEntity position
+                          if (this.currentAnimation == this.AnimationEnum.shomen) {
+                            xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
+                          } else if (this.currentAnimation == this.AnimationEnum.shomen_ikkyo) {
+                            xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
+                          } else if (this.currentAnimation == this.AnimationEnum.tsuki) {
+                            xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
+                          } else if (this.currentAnimation == this.AnimationEnum.tsuki_kote_gaeshi) {
+                            xOffset = 0;
+                          }
+                      } else if (response.a.name == "Enemy1") {
+                          // collision by walking left
+                          // adjust pre offset relative to PlayerEntity position
+                          if (this.currentAnimation == this.AnimationEnum.shomen) {
+                            xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
+                          } else if (this.currentAnimation == this.AnimationEnum.shomen_ikkyo) {
+                            xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
+                          } else if (this.currentAnimation == this.AnimationEnum.tsuki) {
+                            xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
+                          } else if (this.currentAnimation == this.AnimationEnum.tsuki_kote_gaeshi) {
+                            xOffset = -40;
+                          }
+                      }
 
                       var tempChild = me.game.world.addChild(me.pool.pull("TempEntity",
                         // offset TempEntity from player to align merged animation
-                        spawnPos.x - 22,
+                        spawnPos.x + xOffset,
                         spawnPos.y,
                         settings));
 
                       // TODO: need callback to destroy enemy if countered
                       if (this.counterMode) {
-                        tempChild.setCallback(function(playerEntity, enemyEntity) {
-                          console.log("PlayerEntity: got the bad guy!");
+                        tempChild.setCallback(function(playerEntity, enemyEntity, walkLeft) {
+                          console.log("PlayerEntity: got the bad guy!",
+                            " walkLeft: ", walkLeft,
+                            " currentAnimation: ",playerEntity.currentAnimation);
                           me.game.world.removeChild(enemyEntity);
 
                           // offset player to align with position at end of mergedAnimation
-                          playerEntity.pos.x += 40;
+                          var xOffset = 0;
+                          if (walkLeft) {
+                              // shomen-ikkyo
+                              // playerEntity.pos.x -= 40;
+                              // tsuki-kote-gaeshi
+                              // playerEntity.pos.x -= 20;
+
+                              // adjust post offset relative to PlayerEntity position
+                              if (playerEntity.currentAnimation == playerEntity.AnimationEnum.shomen) {
+                                xOffset = -40; // shomen, shomen-ikkyo, tsuki offset
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.shomen_ikkyo) {
+                                xOffset = -40; // shomen, shomen-ikkyo, tsuki offset
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.tsuki) {
+                                xOffset = -40; // shomen, shomen-ikkyo, tsuki offset
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.tsuki_kote_gaeshi) {
+                                xOffset = -40;
+                              }
+
+                              playerEntity.pos.x += xOffset;
+                          } else {
+                              // shomen-ikkyo
+                              // playerEntity.pos.x += 40;
+                              // tsuki-kote-gaeshi
+                              // playerEntity.pos.x += 20;
+
+                              // adjust post offset relative to PlayerEntity position
+                              if (playerEntity.currentAnimation == playerEntity.AnimationEnum.shomen) {
+                                xOffset = 40; // shomen, shomen-ikkyo, tsuki offset
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.shomen_ikkyo) {
+                                xOffset = 40; // shomen, shomen-ikkyo, tsuki offset
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.tsuki) {
+                                xOffset = 40; // shomen, shomen-ikkyo, tsuki offset
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.tsuki_kote_gaeshi) {
+                                xOffset = 40;
+                              }
+
+                              playerEntity.pos.x += xOffset;
+                          }
                         });
                       } else {
-                        tempChild.setCallback(function(playerEntity, enemyEntity) {
+                        tempChild.setCallback(function(playerEntity, enemyEntity, walkLeft) {
                           console.log("PlayerEntity: ouch!");
                         });
                       }
 
                       // reset variables for next encounter
-                      this.mergedAnimationMode = true;
+                      this.mergedAnimationMode = true;  // hide playerEntity
                       this.proximityRangeActive = false; // we can no longer counter
                       this.counterMode = false;
 
@@ -219,12 +297,14 @@ game.PlayerEntity = me.Entity.extend( {
                           response.b.setAlive(false);
                           tempChild.setPlayerEntity(response.a);
                           tempChild.setEnemyEntity(response.b);
+                          tempChild.setWalkLeft(false);
                       } else if (response.a.name == "Enemy1") {
                           response.a.setAlive(false);
                           tempChild.setPlayerEntity(response.b);
                           tempChild.setEnemyEntity(response.a);
+                          tempChild.setWalkLeft(true);
 
-                          // collision from right atlasIndeces
+                          // collision from right side
                           tempChild.flipX(true);
                       }
 
@@ -426,14 +506,9 @@ game.TempEntity = me.Sprite.extend(
 
         // https://melonjs.github.io/melonJS/docs/me.CanvasRenderer.Texture.html
         // create a texture atlas from a JSON Object
-        // var texture = new me.video.renderer.Texture(
-        //     me.loader.getJSON("aikido-animations2"),
-        //     me.loader.getImage("aikido-animations2")
-        // );
-
         var texture = new me.video.renderer.Texture(
-            me.loader.getJSON("aikido-animations3"),
-            me.loader.getImage("aikido-animations3")
+            me.loader.getJSON("aikido-animations4"),
+            me.loader.getImage("aikido-animations4")
         );
 
         // if we were using a sprite instead of an Entity object
@@ -457,6 +532,7 @@ game.TempEntity = me.Sprite.extend(
             "shomen-displacement0005",
             "shomen-displacement0006",
             "shomen-displacement0007",
+            "shomen-displacement0008",
             "shomen-ikkyo0000",
             "shomen-ikkyo0001",
             "shomen-ikkyo0002",
@@ -471,6 +547,29 @@ game.TempEntity = me.Sprite.extend(
             "shomen-ikkyo0011",
             "shomen-ikkyo0012",
             "shomen-ikkyo0013",
+            "tsuki-displacement0000",
+            "tsuki-displacement0001",
+            "tsuki-displacement0002",
+            "tsuki-displacement0003",
+            "tsuki-displacement0004",
+            "tsuki-displacement0005",
+            "tsuki-displacement0006",
+            "tsuki-displacement0007",
+            "tsuki-displacement0008",
+            "tsuki-kote-gaeshi0000",
+            "tsuki-kote-gaeshi0001",
+            "tsuki-kote-gaeshi0002",
+            "tsuki-kote-gaeshi0003",
+            "tsuki-kote-gaeshi0004",
+            "tsuki-kote-gaeshi0005",
+            "tsuki-kote-gaeshi0006",
+            "tsuki-kote-gaeshi0007",
+            "tsuki-kote-gaeshi0008",
+            "tsuki-kote-gaeshi0009",
+            "tsuki-kote-gaeshi0010",
+            "tsuki-kote-gaeshi0011",
+            "tsuki-kote-gaeshi0012",
+            "tsuki-kote-gaeshi0013",
         ]);
 
         // copy atlas and atlasIndeces into settings for our new sprite
@@ -496,6 +595,7 @@ game.TempEntity = me.Sprite.extend(
           "shomen-displacement0005",
           "shomen-displacement0006",
           "shomen-displacement0007",
+          "shomen-displacement0008",
         ]);
 
         this.addAnimation ("shomen-ikkyo", [
@@ -515,6 +615,35 @@ game.TempEntity = me.Sprite.extend(
           "shomen-ikkyo0013",
         ]);
 
+        this.addAnimation ("tsuki", [
+          "tsuki-displacement0000",
+          "tsuki-displacement0001",
+          "tsuki-displacement0002",
+          "tsuki-displacement0003",
+          "tsuki-displacement0004",
+          "tsuki-displacement0005",
+          "tsuki-displacement0006",
+          "tsuki-displacement0007",
+          "tsuki-displacement0008",
+        ]);
+
+        this.addAnimation ("tsuki-kote-gaeshi", [
+          "tsuki-kote-gaeshi0000",
+          "tsuki-kote-gaeshi0001",
+          "tsuki-kote-gaeshi0002",
+          "tsuki-kote-gaeshi0003",
+          "tsuki-kote-gaeshi0004",
+          "tsuki-kote-gaeshi0005",
+          "tsuki-kote-gaeshi0006",
+          "tsuki-kote-gaeshi0007",
+          "tsuki-kote-gaeshi0008",
+          "tsuki-kote-gaeshi0009",
+          "tsuki-kote-gaeshi0010",
+          "tsuki-kote-gaeshi0011",
+          "tsuki-kote-gaeshi0012",
+          "tsuki-kote-gaeshi0013",
+        ]);
+
         // for testing - continuous animation
         // this.setCurrentAnimation("shomen");
 
@@ -526,7 +655,10 @@ game.TempEntity = me.Sprite.extend(
         // restore playerEntity, enemyEntity when finished
 
         if (typeof settings.currentAnimation === "undefined") {
-          settings.currentAnimation = "shomen-ikkyo";
+          // settings.currentAnimation = "shomen";
+          //settings.currentAnimation = "shomen-ikkyo";
+          //settings.currentAnimation = "tsuki";
+          settings.currentAnimation = "tsuki-kote-gaeshi";
         }
 
         this.setCurrentAnimation(settings.currentAnimation, (function () {
@@ -548,7 +680,7 @@ game.TempEntity = me.Sprite.extend(
            }
 
            if (this.callback != null) {
-             this.callback(this.playerEntity, this.enemyEntity);
+             this.callback(this.playerEntity, this.enemyEntity, this.walkLeft);
            }
 
            return false; // do not reset to first frame
@@ -601,6 +733,10 @@ game.TempEntity = me.Sprite.extend(
     {
         console.log("TempEntity: setEnemyEntity: ",obj.name);
         this.enemyEntity = obj;
+    },
+
+    setWalkLeft: function(val) {
+      this.walkLeft = val;
     },
 
     setCallback : function (fn) {
