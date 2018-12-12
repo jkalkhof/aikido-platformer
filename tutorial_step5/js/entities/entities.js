@@ -50,7 +50,9 @@ game.PlayerEntity = me.Entity.extend( {
         this.proximityRangeActive = false;
         this.counterMode = false;
 
-        this.AnimationEnum = Object.freeze({"shomen":1, "shomen_ikkyo":2, "tsuki":3, "tsuki_kote_gaeshi":4});
+        this.AnimationEnum = Object.freeze({"shomen":1, "shomen_ikkyo":2,
+          "tsuki":3, "tsuki_kote_gaeshi":4,
+          "yokomen":5, "yokomen_shiho_nage":6});
         this.currentAnimation = this.AnimationEnum.shomen;
 
         this.AttackEnum = Object.freeze({"shomen":0, "tsuki":1, "yokomen":2 });
@@ -186,12 +188,14 @@ game.PlayerEntity = me.Entity.extend( {
                       var spawnPos = this.pos;
                       var xOffset = 0;
 
-                      //var attackType = me.Math.random(0, 3);
-                      var attackType = me.Math.random(0, 2);
+                      var attackType = me.Math.random(0, 3);
+                      // var attackType = 2;
                       if (attackType == 0) {
                           this.currentAttack = this.AttackEnum.shomen;
-                      } else {
+                      } else if (attackType == 1) {
                           this.currentAttack = this.AttackEnum.tsuki;
+                      } else {
+                          this.currentAttack = this.AttackEnum.yokomen;
                       }
 
                       // add student at spawn point
@@ -201,9 +205,12 @@ game.PlayerEntity = me.Entity.extend( {
                           if (this.currentAttack == this.AttackEnum.shomen) {
                             settings.currentAnimation = "shomen-ikkyo";
                             this.currentAnimation = this.AnimationEnum.shomen_ikkyo;
-                          } else {
+                          } else if (this.currentAttack == this.AttackEnum.tsuki) {
                             settings.currentAnimation = "tsuki-kote-gaeshi";
                             this.currentAnimation = this.AnimationEnum.tsuki_kote_gaeshi;
+                          } else {
+                            settings.currentAnimation = "yokomen-shiho-nage";
+                            this.currentAnimation = this.AnimationEnum.yokomen_shiho_nage;
                           }
 
                       } else {
@@ -211,9 +218,12 @@ game.PlayerEntity = me.Entity.extend( {
                           if (this.currentAttack == this.AttackEnum.shomen) {
                             settings.currentAnimation = "shomen";
                             this.currentAnimation = this.AnimationEnum.shomen;
-                          } else {
+                          } else if (this.currentAttack == this.AttackEnum.tsuki) {
                             settings.currentAnimation = "tsuki";
                             this.currentAnimation = this.AnimationEnum.tsuki;
+                          } else {
+                            settings.currentAnimation = "yokomen";
+                            this.currentAnimation = this.AnimationEnum.yokomen;
                           }
                       }
 
@@ -228,6 +238,10 @@ game.PlayerEntity = me.Entity.extend( {
                             xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
                           } else if (this.currentAnimation == this.AnimationEnum.tsuki_kote_gaeshi) {
                             xOffset = 0;
+                          } else if (this.currentAnimation == this.AnimationEnum.yokomen) {
+                            xOffset = -22;
+                          } else if (this.currentAnimation == this.AnimationEnum.yokomen_shiho_nage) {
+                            xOffset = -12; // good
                           }
                       } else if (response.a.name == "Enemy1") {
                           // collision by walking left
@@ -240,6 +254,10 @@ game.PlayerEntity = me.Entity.extend( {
                             xOffset = -22; // shomen, shomen-ikkyo, tsuki offset
                           } else if (this.currentAnimation == this.AnimationEnum.tsuki_kote_gaeshi) {
                             xOffset = -40;
+                          } else if (this.currentAnimation == this.AnimationEnum.yokomen) {
+                            xOffset = -22;
+                          } else if (this.currentAnimation == this.AnimationEnum.yokomen_shiho_nage) {
+                            xOffset = -32; // good
                           }
                       }
 
@@ -274,6 +292,10 @@ game.PlayerEntity = me.Entity.extend( {
                                 xOffset = -40; // shomen, shomen-ikkyo, tsuki offset
                               } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.tsuki_kote_gaeshi) {
                                 xOffset = -40;
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.yokomen) {
+                                xOffset = 0;
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.yokomen_shiho_nage) {
+                                xOffset = -35;
                               }
 
                               playerEntity.pos.x += xOffset;
@@ -292,6 +314,10 @@ game.PlayerEntity = me.Entity.extend( {
                                 xOffset = 40; // shomen, shomen-ikkyo, tsuki offset
                               } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.tsuki_kote_gaeshi) {
                                 xOffset = 40;
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.yokomen) {
+                                xOffset = 0;
+                              } else if (playerEntity.currentAnimation == playerEntity.AnimationEnum.yokomen_shiho_nage) {
+                                xOffset = 35;
                               }
 
                               playerEntity.pos.x += xOffset;
@@ -523,8 +549,8 @@ game.TempEntity = me.Sprite.extend(
         // https://melonjs.github.io/melonJS/docs/me.CanvasRenderer.Texture.html
         // create a texture atlas from a JSON Object
         var texture = new me.video.renderer.Texture(
-            me.loader.getJSON("aikido-animations4"),
-            me.loader.getImage("aikido-animations4")
+            me.loader.getJSON("aikido-animations5"),
+            me.loader.getImage("aikido-animations5")
         );
 
         // if we were using a sprite instead of an Entity object
@@ -586,6 +612,37 @@ game.TempEntity = me.Sprite.extend(
             "tsuki-kote-gaeshi0011",
             "tsuki-kote-gaeshi0012",
             "tsuki-kote-gaeshi0013",
+            "yokomen-displacement0000",
+            "yokomen-displacement0001",
+            "yokomen-displacement0002",
+            "yokomen-displacement0003",
+            "yokomen-displacement0004",
+            "yokomen-displacement0005",
+            "yokomen-displacement0006",
+            "yokomen-displacement0007",
+            "yokomen-displacement0008",
+            "yokomen-displacement0009",
+            "yokomen-shiho-nage0000",
+            "yokomen-shiho-nage0001",
+            "yokomen-shiho-nage0002",
+            "yokomen-shiho-nage0003",
+            "yokomen-shiho-nage0004",
+            "yokomen-shiho-nage0005",
+            "yokomen-shiho-nage0006",
+            "yokomen-shiho-nage0007",
+            "yokomen-shiho-nage0008",
+            "yokomen-shiho-nage0009",
+            "yokomen-shiho-nage0010",
+            "yokomen-shiho-nage0011",
+            "yokomen-shiho-nage0012",
+            "yokomen-shiho-nage0013",
+            "yokomen-shiho-nage0014",
+            "yokomen-shiho-nage0015",
+            "yokomen-shiho-nage0016",
+            "yokomen-shiho-nage0017",
+            "yokomen-shiho-nage0018",
+            "yokomen-shiho-nage0019",
+            "yokomen-shiho-nage0020",
         ]);
 
         // copy atlas and atlasIndeces into settings for our new sprite
@@ -660,6 +717,43 @@ game.TempEntity = me.Sprite.extend(
           "tsuki-kote-gaeshi0013",
         ]);
 
+        this.addAnimation ("yokomen", [
+          "yokomen-displacement0000",
+          "yokomen-displacement0001",
+          "yokomen-displacement0002",
+          "yokomen-displacement0003",
+          "yokomen-displacement0004",
+          "yokomen-displacement0005",
+          "yokomen-displacement0006",
+          "yokomen-displacement0007",
+          "yokomen-displacement0008",
+          "yokomen-displacement0009",
+        ]);
+
+        this.addAnimation ("yokomen-shiho-nage", [
+          "yokomen-shiho-nage0000",
+          "yokomen-shiho-nage0001",
+          "yokomen-shiho-nage0002",
+          "yokomen-shiho-nage0003",
+          "yokomen-shiho-nage0004",
+          "yokomen-shiho-nage0005",
+          "yokomen-shiho-nage0006",
+          "yokomen-shiho-nage0007",
+          "yokomen-shiho-nage0008",
+          "yokomen-shiho-nage0009",
+          "yokomen-shiho-nage0010",
+          "yokomen-shiho-nage0011",
+          "yokomen-shiho-nage0012",
+          "yokomen-shiho-nage0013",
+          "yokomen-shiho-nage0014",
+          "yokomen-shiho-nage0015",
+          "yokomen-shiho-nage0016",
+          "yokomen-shiho-nage0017",
+          "yokomen-shiho-nage0018",
+          "yokomen-shiho-nage0019",
+          "yokomen-shiho-nage0020",
+        ]);
+
         // for testing - continuous animation
         // this.setCurrentAnimation("shomen");
 
@@ -674,7 +768,9 @@ game.TempEntity = me.Sprite.extend(
           // settings.currentAnimation = "shomen";
           //settings.currentAnimation = "shomen-ikkyo";
           //settings.currentAnimation = "tsuki";
-          settings.currentAnimation = "tsuki-kote-gaeshi";
+          //settings.currentAnimation = "tsuki-kote-gaeshi";
+          // settings.currentAnimation = "yokomen";
+          settings.currentAnimation = "yokomen-shiho-nage";
         }
 
         this.setCurrentAnimation(settings.currentAnimation, (function () {

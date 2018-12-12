@@ -8,17 +8,8 @@ game.resources = [
 	//{name: "gripe_run_right",     type:"image",	src: "data/img/sprite/gripe_run_right.png"},
 	{name: "walk-right-yellow2",     type:"image",	src: "data/img/sprite/walk-right-yellow2.png"},
 
-	// {name: "aikido-animations1",     type:"image",	src: "data/img/sprite/aikido-animations1.png"},
-	// {name : "aikido-animations1",		 type : "json",  src: "data/img/sprite/aikido-animations1.json"},
-
-	// {name: "aikido-animations2",     type:"image",	src: "data/img/sprite/aikido-animations2.png"},
-	// {name : "aikido-animations2",		 type : "json",  src: "data/img/sprite/aikido-animations2.json"},
-
-	// {name: "aikido-animations3",     type:"image",	src: "data/img/sprite/aikido-animations3.png"},
-	// {name : "aikido-animations3",		 type : "json",  src: "data/img/sprite/aikido-animations3.json"},
-
-	{name: "aikido-animations4",     type:"image",	src: "data/img/sprite/aikido-animations4.png"},
-	{name : "aikido-animations4",		 type : "json",  src: "data/img/sprite/aikido-animations4.json"},	
+	{name: "aikido-animations5",     type:"image",	src: "data/img/sprite/aikido-animations5.png"},
+	{name : "aikido-animations5",		 type : "json",  src: "data/img/sprite/aikido-animations5.json"},
 
 	// the parallax background
 	{name: "area01_bkg0",         type:"image",	src: "data/img/area01_bkg0.png"},
