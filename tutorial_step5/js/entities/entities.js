@@ -25,10 +25,10 @@ game.PlayerEntity = me.Entity.extend( {
         var texture =  new me.video.renderer.Texture(
             //{ framewidth: 47, frameheight: 48 },
             { framewidth: 50, frameheight: 50 },
-            me.loader.getImage("walk-right-yellow2")
+            me.loader.getImage("walk-right-yellow7")
         );
 
-        this.renderable = texture.createAnimationFromName([0,1,2,3,4,5,6,7,8,9]);
+        this.renderable = texture.createAnimationFromName([0,1,2,3,4,5,6,7]);
 
         // add the coin sprite as renderable for the entity
         //this.renderable = game.texture.createSpriteFromName("walk-right-yellow2.png");
@@ -414,7 +414,7 @@ game.EnemyEntity = me.Sprite.extend(
 
         // define this here instead of tiled
         // settings.image = "wheelie_right";
-        settings.image = "walk-right-blue1";
+        settings.image = "walk-right-blue3";
 
         // adjust the size setting information to match the sprite size
         // so that the entity object is created with the right size
@@ -549,8 +549,8 @@ game.TempEntity = me.Sprite.extend(
         // https://melonjs.github.io/melonJS/docs/me.CanvasRenderer.Texture.html
         // create a texture atlas from a JSON Object
         var texture = new me.video.renderer.Texture(
-            me.loader.getJSON("aikido-animations5"),
-            me.loader.getImage("aikido-animations5")
+            me.loader.getJSON("aikido-animations7"),
+            me.loader.getImage("aikido-animations7")
         );
 
         // if we were using a sprite instead of an Entity object

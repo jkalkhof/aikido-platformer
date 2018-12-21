@@ -9,11 +9,10 @@ game.resources = [
 
 
 	// the main player spritesheet
-	//{name: "gripe_run_right",     type:"image",	src: "data/img/sprite/gripe_run_right.png"},
-	{name: "walk-right-yellow2",     type:"image",	src: "data/img/sprite/walk-right-yellow2.png"},
+	{name: "walk-right-yellow7",     type:"image",	src: "data/img/sprite/walk-right-yellow7.png"},
 
-	{name: "aikido-animations5",     type:"image",	src: "data/img/sprite/aikido-animations5.png"},
-	{name : "aikido-animations5",		 type : "json",  src: "data/img/sprite/aikido-animations5.json"},
+	{name: "aikido-animations7",     type:"image",	src: "data/img/sprite/aikido-animations7.png"},
+	{name : "aikido-animations7",		 type : "json",  src: "data/img/sprite/aikido-animations7.json"},
 
 	// the parallax background
 	{name: "area01_bkg0",         type:"image",	src: "data/img/area01_bkg0.png"},
@@ -26,8 +25,7 @@ game.resources = [
 	// the spinning coin spritesheet
 	{name: "spinning_coin_gold",  type:"image",	src: "data/img/sprite/spinning_coin_gold.png"},
 	// our enemty entity
-	// {name: "wheelie_right",       type:"image",	src: "data/img/sprite/wheelie_right.png"},
-	{name: "walk-right-blue1",       type:"image",	src: "data/img/sprite/walk-right-blue1.png"},
+	{name: "walk-right-blue3",       type:"image",	src: "data/img/sprite/walk-right-blue3.png"},
 
 	/*
 	 * Maps.

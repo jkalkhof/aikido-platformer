@@ -12,7 +12,7 @@
  <imagelayer name="parallax1">
   <image source="../img/mountains-background4.png" width="640" height="800"/>
   <properties>
-   <property name="ratio" type="float" value="1"/>
+   <property name="ratio" type="float" value="0"/>
    <property name="x" type="int" value="0"/>
    <property name="y" type="int" value="0"/>
   </properties>
@@ -189,7 +189,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Entities">
-  <object id="2" name="mainPlayer" x="-2" y="366" width="50" height="50"/>
+  <object id="2" name="mainPlayer" x="5" y="364" width="50" height="50"/>
   <object id="3" name="TempEntity" x="544" y="480" width="100" height="50"/>
   <object id="4" name="CoinEntity" x="320" y="608" width="32" height="32">
    <properties>
