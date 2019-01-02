@@ -30,22 +30,25 @@ var game = {
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
-		// add our player entity in the entity pool
-		me.pool.register("mainPlayer", game.PlayerEntity);
-		me.pool.register("CoinEntity", game.CoinEntity);
-		me.pool.register("EnemyEntity", game.EnemyEntity);
-		me.pool.register("TempEntity", game.TempEntity);
+				// add our player entity in the entity pool
+				me.pool.register("mainPlayer", game.PlayerEntity);
+				me.pool.register("CoinEntity", game.CoinEntity);
+				me.pool.register("EnemyEntity", game.EnemyEntity);
+				me.pool.register("TempEntity", game.TempEntity);
 
-		// enable the keyboard
-		me.input.bindKey(me.input.KEY.LEFT,		"left");
-		me.input.bindKey(me.input.KEY.RIGHT,	"right");
-		// map X, Up Arrow for jump
-		me.input.bindKey(me.input.KEY.X,		"jump", true);
-		me.input.bindKey(me.input.KEY.UP,		"jump", true);
-		// space for counter move
-		me.input.bindKey(me.input.KEY.SPACE,	"counter", true);
+				// enable the keyboard
+				me.input.bindKey(me.input.KEY.LEFT,		"left");
+				me.input.bindKey(me.input.KEY.RIGHT,	"right");
+				// map X, Up Arrow for jump
+				me.input.bindKey(me.input.KEY.X,		"jump", true);
+				me.input.bindKey(me.input.KEY.UP,		"jump", true);
+				// space for counter move
+				me.input.bindKey(me.input.KEY.SPACE,	"counter", true);
 
-        // Start the game.
-        me.state.change(me.state.PLAY);
+		    // // Start the game.
+		    // me.state.change(me.state.PLAY);
+
+				// go to the title menu, then start play
+				me.state.change(me.state.MENU);
     }
 };

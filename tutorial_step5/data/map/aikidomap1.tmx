@@ -12,7 +12,7 @@
  <imagelayer name="parallax1">
   <image source="../img/mountains-background4.png" width="640" height="800"/>
   <properties>
-   <property name="ratio" type="float" value="0"/>
+   <property name="ratio" type="float" value="1"/>
    <property name="x" type="int" value="0"/>
    <property name="y" type="int" value="0"/>
   </properties>
