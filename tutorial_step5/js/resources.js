@@ -36,6 +36,7 @@ game.resources = [
 	/*
 	 * Background music.
 	 */
+	{name: "Shinrin-Yoku", type: "audio", src: "data/music/"},
 
 	/*
 	 * Sound effects.

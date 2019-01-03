@@ -15,6 +15,10 @@ game.PlayScreen = me.ScreenObject.extend({
 		this.HUD = new game.HUD.Container();
 		me.game.world.addChild(this.HUD);
 
+		// volume.clamp is not a function! bug in melonjs 6.1
+		//me.audio.play("Shinrin-Yoku", true, null, 0.5);
+		me.audio.play("Shinrin-Yoku", true);
+
 	},
 
 
