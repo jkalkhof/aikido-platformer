@@ -862,3 +862,36 @@ game.TempEntity = me.Sprite.extend(
     },
 
   });
+
+
+/**
+  * levelEntity - for completing level
+  */
+game.LevelEntity = me.LevelEntity.extend(
+{
+      init: function (x, y, settings)
+      {
+        console.log("LevelEntity: init");
+
+        // call the parent constructor
+        // me.Renderable -> me.Sprite
+        this._super(me.LevelEntity, 'init', [x, y , settings]);
+      },
+
+      goTo : function (level) {
+        console.log("LevelEntity: goTo");
+
+        // go to the title menu, then start play
+				//me.state.change(me.state.MENU);
+
+        // GAMEOVER, GAME_END
+        me.state.change( me.state.GAMEOVER );
+
+        // http://melonjs.github.io/melonJS/docs/me.Camera2d.html
+        me.game.viewport.unfollow();
+        // me.game.viewport.follow(null, null);
+        // me.game.viewport.target = undefined;
+        me.game.viewport.moveTo(0, 0);
+      },
+}
+);

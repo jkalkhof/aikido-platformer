@@ -29,12 +29,15 @@ var game = {
     "loaded" : function () {
         me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
+				me.state.set(me.state.GAMEOVER, new game.GameOverScreen());
 
 				// add our player entity in the entity pool
 				me.pool.register("mainPlayer", game.PlayerEntity);
 				me.pool.register("CoinEntity", game.CoinEntity);
 				me.pool.register("EnemyEntity", game.EnemyEntity);
 				me.pool.register("TempEntity", game.TempEntity);
+
+				me.pool.register("LevelEntity", game.LevelEntity);
 
 				// enable the keyboard
 				me.input.bindKey(me.input.KEY.LEFT,		"left");

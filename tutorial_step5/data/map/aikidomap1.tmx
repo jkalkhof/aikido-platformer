@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="60" height="25" tilewidth="32" tileheight="32" infinite="0" nextobjectid="38">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="60" height="25" tilewidth="32" tileheight="32" infinite="0" nextobjectid="42">
  <tileset firstgid="1" name="village-tiles5" tilewidth="32" tileheight="32" tilecount="450" columns="25">
   <image source="../img/map/village-tiles5.png" width="800" height="600"/>
  </tileset>
@@ -197,6 +197,7 @@
     <property name="image" value="spinning_coin_gold"/>
    </properties>
   </object>
+  <object id="40" name="LevelEntity" x="1716" y="636" width="104" height="66.6667"/>
  </objectgroup>
  <objectgroup color="#ff0000" name="collision">
   <object id="20" type="platform" x="1636.33" y="632">
