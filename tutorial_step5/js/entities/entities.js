@@ -184,6 +184,7 @@ game.PlayerEntity = me.Entity.extend( {
                     // https://melonjs.github.io/melonJS/docs/me.collision.html#response
                     if (!this.mergedAnimationMode && (response.overlapV.x > 20) && this.canBeAttacked) {
                       console.log("PlayerEntity: Collision: creating TempEntity");
+                      this.canBeAttacked = false;
 
                       // spawn tempEntity here
                       var spawnPos = this.pos;
@@ -274,6 +275,8 @@ game.PlayerEntity = me.Entity.extend( {
                           console.log("PlayerEntity: got the bad guy!",
                             " walkLeft: ", walkLeft,
                             " currentAnimation: ",playerEntity.currentAnimation);
+
+                          playerEntity.canBeAttacked = true;
                           me.game.world.removeChild(enemyEntity);
 
                           // offset player to align with position at end of mergedAnimation
@@ -327,7 +330,7 @@ game.PlayerEntity = me.Entity.extend( {
                       } else {
                         tempChild.setCallback(function(playerEntity, enemyEntity, walkLeft) {
                           console.log("PlayerEntity: ouch!");
-                          this.canBeAttacked = false;
+                          // playerEntity.canBeAttacked = false;
 
                           // create timeout for signedup or turnedaway dialog result
                           // wait for 2 sec - let the hero go away
