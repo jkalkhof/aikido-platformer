@@ -49,6 +49,7 @@ game.PlayerEntity = me.Entity.extend( {
         this.mergedAnimationMode = false;
         this.proximityRangeActive = false;
         this.counterMode = false;
+        this.canBeAttacked = true;
 
         this.AnimationEnum = Object.freeze({"shomen":1, "shomen_ikkyo":2,
           "tsuki":3, "tsuki_kote_gaeshi":4,
@@ -181,8 +182,10 @@ game.PlayerEntity = me.Entity.extend( {
                     // and use tempEntity instead for merged animation
                     // check the overlap Vector
                     // https://melonjs.github.io/melonJS/docs/me.collision.html#response
-                    if (!this.mergedAnimationMode && response.overlapV.x > 20) {
+                    if (!this.mergedAnimationMode && response.overlapV.x > 20 && this.canBeAttacked) {
                       console.log("PlayerEntity: Collision: creating TempEntity");
+
+                      this.canBeAttacked = false;
 
                       // spawn tempEntity here
                       var spawnPos = this.pos;
@@ -326,6 +329,18 @@ game.PlayerEntity = me.Entity.extend( {
                       } else {
                         tempChild.setCallback(function(playerEntity, enemyEntity, walkLeft) {
                           console.log("PlayerEntity: ouch!");
+
+                          // create timeout for signedup or turnedaway dialog result
+                          // wait for 2 sec - let the hero go away
+                          var waitFor = 1000;
+                          this.timer = me.timer.setTimeout(function () {
+                            console.log("PlayerEntity:",this.name," reset can hit timeout");
+                            playerEntity.canBeAttacked = true;
+
+                            me.timer.clearTimeout(this.timer);
+                            this.timer = null;
+                          }.bind(this), waitFor);
+
                         });
                       }
 
