@@ -182,10 +182,8 @@ game.PlayerEntity = me.Entity.extend( {
                     // and use tempEntity instead for merged animation
                     // check the overlap Vector
                     // https://melonjs.github.io/melonJS/docs/me.collision.html#response
-                    if (!this.mergedAnimationMode && response.overlapV.x > 20 && this.canBeAttacked) {
+                    if (!this.mergedAnimationMode && (response.overlapV.x > 20) && this.canBeAttacked) {
                       console.log("PlayerEntity: Collision: creating TempEntity");
-
-                      this.canBeAttacked = false;
 
                       // spawn tempEntity here
                       var spawnPos = this.pos;
@@ -329,12 +327,13 @@ game.PlayerEntity = me.Entity.extend( {
                       } else {
                         tempChild.setCallback(function(playerEntity, enemyEntity, walkLeft) {
                           console.log("PlayerEntity: ouch!");
+                          this.canBeAttacked = false;
 
                           // create timeout for signedup or turnedaway dialog result
                           // wait for 2 sec - let the hero go away
                           var waitFor = 1000;
                           this.timer = me.timer.setTimeout(function () {
-                            console.log("PlayerEntity:",this.name," reset can hit timeout");
+                            console.log("PlayerEntity:",playerEntity.name," reset can hit timeout");
                             playerEntity.canBeAttacked = true;
 
                             me.timer.clearTimeout(this.timer);
@@ -364,6 +363,9 @@ game.PlayerEntity = me.Entity.extend( {
                           // collision from right side
                           tempChild.flipX(true);
                       }
+
+                    } else if (!this.mergedAnimationMode && (response.overlapV.x > 20)) {
+                      console.log("PlayerEntity: Collision: canBeAttacked: ", this.canBeAttacked);
 
                     }
                 }
