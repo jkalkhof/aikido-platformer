@@ -40,4 +40,7 @@ game.resources = [
 	/*
 	 * Sound effects.
 	 */
+	 {name: "fall", type: "audio", src: "data/sfx/"},
+	 {name: "male-pain13", type: "audio", src: "data/sfx/"},
+
 ];

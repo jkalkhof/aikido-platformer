@@ -191,18 +191,33 @@ game.PlayerEntity = me.Entity.extend( {
                       var xOffset = 0;
 
                       var attackType = me.Math.random(0, 3);
+                      var waitFor = 0; // how long to wait before audio plays
                       // var attackType = 2;
                       if (attackType == 0) {
                           this.currentAttack = this.AttackEnum.shomen;
+                          waitFor = 800;
                       } else if (attackType == 1) {
                           this.currentAttack = this.AttackEnum.tsuki;
+                          waitFor = 1250;
                       } else {
                           this.currentAttack = this.AttackEnum.yokomen;
+                          waitFor = 1500;
                       }
 
                       // add student at spawn point
                       settings = {width: 100, height: 50};
                       if (this.counterMode) {
+
+                          // create timeout for audio attack sound
+                          // wait for 2 sec - let animation play a bit before sound
+                          this.timer = me.timer.setTimeout(function () {
+                            console.log("PlayerEntity: audio timeout");
+                            me.audio.play("fall");
+
+                            me.timer.clearTimeout(this.timer);
+                            this.timer = null;
+                          }.bind(this), waitFor);
+
                           // defenses
                           if (this.currentAttack == this.AttackEnum.shomen) {
                             settings.currentAnimation = "shomen-ikkyo";
@@ -216,6 +231,19 @@ game.PlayerEntity = me.Entity.extend( {
                           }
 
                       } else {
+
+
+                          // create timeout for audio attack sound
+                          // wait for 2 sec - let animation play a bit before sound
+                          var waitFor = 400;
+                          this.timer = me.timer.setTimeout(function () {
+                            console.log("PlayerEntity: audio timeout");
+                            me.audio.play("male-pain13",false, undefined, null);
+
+                            me.timer.clearTimeout(this.timer);
+                            this.timer = null;
+                          }.bind(this), waitFor);
+
                           // attacks
                           if (this.currentAttack == this.AttackEnum.shomen) {
                             settings.currentAnimation = "shomen";
@@ -332,7 +360,7 @@ game.PlayerEntity = me.Entity.extend( {
                           console.log("PlayerEntity: ouch!");
                           // playerEntity.canBeAttacked = false;
 
-                          // create timeout for signedup or turnedaway dialog result
+                          // create timeout for canBeAttacked flag reset
                           // wait for 2 sec - let the hero go away
                           var waitFor = 1000;
                           this.timer = me.timer.setTimeout(function () {
